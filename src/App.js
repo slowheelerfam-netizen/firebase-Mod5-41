@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { auth, db } from './firebase/init';
-import { collection, addDoc, getDocs, getDoc, doc, query, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc } from "firebase/firestore";
 import Navbar from './components/Navbar';
 import { 
   createUserWithEmailAndPassword, 
@@ -14,6 +14,19 @@ function App() {
   const [user, setUser] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   const [authMessage, setAuthMessage] = React.useState('');
+
+async function updatePost() {
+  const hardcodedId = '2UBr2D5ekRaAxREmsIq0';
+  const postRef = doc(db, "posts", hardcodedId);
+  const post = await getPostById(hardcodedId);
+  console.log(post);
+  const newPost= {
+    ...post,
+    title: "Land a $400k job",  //This line will only update this field
+  };
+  console.log(newPost);
+  updateDoc(postRef, newPost);
+}
 
 function createPost() {
   const post = {
@@ -36,16 +49,10 @@ async function getAllPosts() {
   console.log(posts);
 }
 
-async function getPostById() {
-  const hardcodedId = '2UBr2D5ekRaAxREmsIq0';
-  const postRef = doc(db, "posts", hardcodedId);
+async function getPostById(id) {
+  const postRef = doc(db, "posts", id);
   const postSnap = await getDoc(postRef);
-  const post = postSnap.data();
-  if (postSnap.exists()) {
-    console.log(post);
-  } else {
-    console.log("No such document!");
-  };
+  return postSnap.data();   
 }
 
 async function getPostByUid() {
@@ -109,6 +116,7 @@ return (
       getAllPosts={getAllPosts}
       getPostById={getPostById}
       getPostByUid={getPostByUid}
+      updatePost={updatePost}
     />
 
   </div>

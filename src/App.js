@@ -31,7 +31,7 @@ function createPost() {
 
 async function getAllPosts() {
   const { docs } = await getDocs(collection(db, "posts"));
-  const posts = docs.map(elem => elem.data());
+  const posts = docs.map(elem => ({...elem.data()}));
   console.log(posts);
 }
 

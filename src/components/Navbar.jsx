@@ -13,6 +13,7 @@ function Navbar({ user, loading, onLogin, onRegister, onLogout, authMessage, onC
               <>
                 <button className="btn btn-get-posts" onClick={getAllPosts}>Get Posts</button>
                 <button className="btn btn-create-post" onClick={onCreatePost}>Create Post</button>
+                <button className="btn btn-get-posts" onClick={getAllPosts}>Get All Posts</button>
                 <button className="logout-button" aria-label="Logout" onClick={onLogout}>
                   {user?.email ? user.email.trim().charAt(0).toUpperCase() : ''}
                 </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { auth, db } from './firebase/init';
-import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc, deleteDoc } from "firebase/firestore";
 import Navbar from './components/Navbar';
 import { 
   createUserWithEmailAndPassword, 
@@ -26,6 +26,12 @@ async function updatePost() {
   };
   console.log(newPost);
   updateDoc(postRef, newPost);
+}
+
+function deletePost() {
+  const hardcodedId = '2UBr2D5ekRaAxREmsIq0';
+  const postRef = doc(db, "posts", hardcodedId);
+  deleteDoc(postRef);
 }
 
 function createPost() {
@@ -117,6 +123,7 @@ return (
       getPostById={getPostById}
       getPostByUid={getPostByUid}
       updatePost={updatePost}
+      deletePost={deletePost}
     />
 
   </div>

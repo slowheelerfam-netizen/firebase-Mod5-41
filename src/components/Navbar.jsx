@@ -1,5 +1,5 @@
 import logo from '../assets/fes_logo.png';
-function Navbar({ user, loading, onLogin, onRegister, onLogout, authMessage, onCreatePost, updatePost, getAllPosts, getPostById, getPostByUid }) {
+function Navbar({ user, loading, onLogin, onRegister, onLogout, authMessage, onCreatePost, updatePost, getAllPosts, getPostById, getPostByUid, deletePost }) {
   return (
     <nav className="navbar">
       <div className="navbar-top">
@@ -15,7 +15,9 @@ function Navbar({ user, loading, onLogin, onRegister, onLogout, authMessage, onC
                 <button className="btn btn-get-post-by-id" onClick={getPostById}>Get Post By ID</button>
                 <button className="btn btn-create-post" onClick={onCreatePost}>Create Post</button>
                 <button className="btn btn-get-post-by-uid" onClick={getPostByUid}>Get Post By UID</button>
+                <button className="btn btn-delete-post" onClick={deletePost}>Delete Post</button>
                 <button className="btn btn-update-post" onClick={updatePost}>Update Post</button>
+                <button className="btn btn-delete-post" onClick={deletePost}>Delete Post</button>
                 <button className="logout-button" aria-label="Logout" onClick={onLogout}>
                   {user?.email ? user.email.trim().charAt(0).toUpperCase() : ''}
                 </button>

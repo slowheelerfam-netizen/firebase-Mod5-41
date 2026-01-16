@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { auth, db } from './firebase/init';
-import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where } from "firebase/firestore";
 import Navbar from './components/Navbar';
 import { 
   createUserWithEmailAndPassword, 
@@ -17,8 +17,9 @@ function App() {
 
 function createPost() {
   const post = {
-    title: "Land a $100k job",
-    description: "Finish Frontend Simplified"
+    title: "Finish Interview Section",
+    description: "Do Frontend Simplified",
+    uid: user.uid, 
   };
   addDoc(collection(db, "posts"), post)
     .then((docRef) => {
@@ -44,7 +45,16 @@ async function getPostById() {
     console.log(post);
   } else {
     console.log("No such document!");
-  }
+  };
+}
+
+async function getPostByUid() {
+  const postCollectionRef = await query(
+    collection(db, "posts"),
+    where("uid", "==", user.uid)
+  );
+  const { docs } = await getDocs(postCollectionRef);
+  console.log(docs)
 }
 
 React.useEffect(() => {
@@ -98,6 +108,7 @@ return (
       onCreatePost={createPost}
       getAllPosts={getAllPosts}
       getPostById={getPostById}
+      getPostByUid={getPostByUid}
     />
 
   </div>

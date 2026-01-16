@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { auth, db } from './firebase/init';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import Navbar from './components/Navbar';
 import { 
   createUserWithEmailAndPassword, 
@@ -14,6 +14,7 @@ function App() {
   const [user, setUser] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   const [authMessage, setAuthMessage] = React.useState('');
+
 function createPost() {
   const post = {
     title: "Land a $100k job",
@@ -28,6 +29,12 @@ function createPost() {
     });
 }
 
+async function getAllPosts() {
+  const { docs } = await getDocs(collection(db, "posts"));
+  const posts = docs.map(elem => elem.data());
+  console.log(posts);
+}
+
 React.useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     setLoading(false);
@@ -38,7 +45,6 @@ React.useEffect(() => {
       setUser({});
     }
   });
-
   return () => unsubscribe();
 }, []);
 
@@ -78,6 +84,7 @@ return (
       onLogout={logout} 
       authMessage={authMessage}
       onCreatePost={createPost}
+      getAllPosts={getAllPosts}
     />
 
   </div>
